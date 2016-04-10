@@ -6,10 +6,9 @@ var messages = {
   0: 'ズン',
   1: 'ドコ',
   2: 'キ・ヨ・シ！',
-  3: '　', // blank line
 };
 
-var current = [];
+var current  = [];
 var expected = [0, 0, 0, 0, 1];
 
 function zundoko(socket) {
@@ -17,13 +16,16 @@ function zundoko(socket) {
   if (current.push(rand) > 5) {
      current.shift();
   }
-  socket.emit('message', messages[rand]); // zun or doko ..
+  emit(socket, rand); // zun or doko ..
 
   // kiyoshi ?
   if (current.toString() == expected.toString()) {
-    socket.emit('message', messages[2]);
-    socket.emit('message', messages[3]);
+    emit(socket, 2);
   }
+}
+
+function emit(socket, index) {
+  socket.emit('message', messages[index]);
 }
 
 io.on('connection', function(socket) {

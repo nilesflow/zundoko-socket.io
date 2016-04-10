@@ -9,14 +9,17 @@ HTTP server listening on port `3050`.
 install [node.js](https://nodejs.org/en/), If you don't have,  
 
 to setup and start app, 
-
 ```
 npm run setup
 npm run start
 ```
 
-to restart or stop app, 
+and access to, 
+```
+http://(your domain):3050
+```
 
+to restart or stop app, 
 ```
 npm run restart
 npm run stop
