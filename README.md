@@ -3,7 +3,8 @@ zundoko kiyoshi with socket.io.
 
 ## How to use
 
-The following example attaches socket.io to a plain Node.JS
+The following application attaches [socket.io](http://socket.io/)
+to a plain [Node.JS](https://nodejs.org/en/)
 HTTP server listening on port `3050`.
 
 to setup and start app, 
@@ -22,4 +23,4 @@ npm run stop
 
 ## Note
 
-This appliction start to run with forever.
+This appliction start to run with [forever](https://www.npmjs.com/package/forever).
