@@ -1,0 +1,16 @@
+{
+  "name": "zundoko-socket.io",
+  "version": "1.0.0",
+  "description": "zundoko kiyoshi with socket.io",
+  "dependencies": {
+    "express": "^4.13.4",
+    "forever": "^0.15.1",
+    "socket.io": "1.4.5"
+  },
+  "scripts": {
+    "setup" : "npm install",
+    "start": "./node_modules/.bin/forever start `pwd`/index.js",
+    "restart": "./node_modules/.bin/forever start `pwd`/index.js",
+    "stop": "./node_modules/.bin/forever stop `pwd`/index.js"
+  }
+}
