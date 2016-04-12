@@ -2,6 +2,9 @@ var app  = require('express')();
 var http = require('http').Server(app);
 var io   = require('socket.io')(http);
 
+var port = 3050;
+var tick = 1500; // ms
+
 var messages = {
   0: 'ズン',
   1: 'ドコ',
@@ -11,31 +14,47 @@ var messages = {
 var current  = [];
 var expected = [0, 0, 0, 0, 1];
 
-function zundoko(socket) {
+function zundoko() {
   var rand = Math.floor(Math.random() * 2); // 0 or 1
   if (current.push(rand) > 5) {
      current.shift();
   }
-  emit(socket, rand); // zun or doko ..
+  emit(rand); // zun or doko ..
 
   // kiyoshi ?
   if (current.toString() == expected.toString()) {
-    emit(socket, 2);
+    emit(2);
   }
 }
 
-function emit(socket, index) {
-  socket.emit('message', messages[index]);
-}
-
+var sockets = [];
 io.on('connection', function(socket) {
-  setInterval(zundoko.bind(this, socket), 1500);
+  sockets.push(socket);
+  console.log('add socket. len:' + sockets.length);
+
+  socket.on('disconnect', function () {
+    for (var i in sockets) {
+      if (sockets[i] == socket) {
+        sockets.splice(i, 1);
+      }
+    }
+    console.log('remove socket. len:' + sockets.length);
+  });
 });
+
+function emit(index) {
+  for (var i in sockets) {
+    sockets[i].emit('message', messages[index]);
+  }
+}
 
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
-http.listen(3050, function() {
-  console.log('listening on *:3050');
+http.listen(port, function() {
+  console.log('listening on *:' + port);
+
+  setInterval(zundoko, tick);
+  console.log('start zundoko.');
 });
